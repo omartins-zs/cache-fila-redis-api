@@ -37,15 +37,16 @@ class ExternalApiController extends Controller
             // Chave de cache baseada no conteúdo do body.
             $cacheKey = 'arquivo_gerado:' . md5(json_encode($validated));
 
-            if (Cache::store('redis')->has($cacheKey)) {
+            // Usa o store padrão de cache (CACHE_STORE=redis no .env -> Redis).
+            if (Cache::has($cacheKey)) {
                 Log::info('🔁 Cache HIT (Redis) - retornando resultado já gerado', ['key' => $cacheKey]);
             } else {
                 Log::info('🟡 Cache MISS (Redis) - gerando novo arquivo', ['key' => $cacheKey]);
             }
 
-            // remember: se existir no Redis retorna do cache; senão executa a
+            // remember: se existir no cache retorna dele; senão executa a
             // closure (gera o arquivo) e guarda por 10 minutos.
-            $result = Cache::store('redis')->remember($cacheKey, now()->addMinutes(10), function () use ($validated) {
+            $result = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($validated) {
                 return $this->generateFile($validated);
             });
 
