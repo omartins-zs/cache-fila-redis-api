@@ -29,6 +29,11 @@ Configurado com `CACHE_STORE=redis` no `.env`.
 { "status": "success", "message": "Arquivo validado e gerado com sucesso.", "data": { "file": "...", "url": "...", "size": 123 } }
 ```
 
+## Log Viewer
+Os logs (com emojis) podem ser vistos no navegador via [opcodesio/log-viewer](https://github.com/opcodesio/log-viewer):
+
+👉 **http://localhost:8002/log-viewer**
+
 ## Como rodar
 ```bash
 composer install
